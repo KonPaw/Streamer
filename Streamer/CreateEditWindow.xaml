@@ -1,0 +1,85 @@
+﻿<Window x:Name="CreateEdit" x:Class="Streamer.CreateEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Streamer"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow"
+        Title="CreateEditWindow" Height="300" Width="300" ResizeMode="NoResize" Visibility="Visible" >
+    <Window.Resources>
+        <local:IPAddressConverter x:Key="IpAddressConverter"/>
+    </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+    </Window.Background>
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFD6DBE9" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+    <Grid>
+
+
+        <Grid Height="260" VerticalAlignment="Top" Name="inputFormGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Label x:Name="label" Content="Name:" Grid.Row="0" Grid.Column="0"/>
+            <Label x:Name="label1" Content="Multicast:" Grid.Row="1" Grid.Column="0"/>
+            <Label x:Name="label2" Content="Port:" Grid.Row="2" Grid.Column="0"/>
+            <Label x:Name="label3" Content="Bitrate [b/s]:" Grid.Row="3" Grid.Column="0"/>
+            <Label x:Name="label4" Content="Loop:" Grid.Row="4" Grid.Column="0"/>
+            <Label x:Name="label5" Content="File:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+            <Label x:Name="label6" Content="Output:" Grid.Row="6" Grid.Column="0"/>
+
+            <TextBox x:Name="nameTextBox" TextWrapping="Wrap" Grid.Column="1" Grid.Row="0" Margin="3,3,30,3" MaxLength="30" TabIndex="0"/>
+            <TextBox x:Name="portTextBox" TextWrapping="Wrap" Text="12345" Grid.Column="1" Grid.Row="2" Margin="3,3,150,3" TextChanged="PortTextBox_OnTextChanged" TabIndex="5"/>
+            <TextBox x:Name="bitrateTextBox" TextWrapping="Wrap" Text="300000" Grid.Column="1" Grid.Row="3" Margin="3,3,100,3" TextChanged="BitrateTextBox_OnTextChanged" TabIndex="6"/>
+            <CheckBox x:Name="loopCheckBox" Content=""  Grid.Column="1" Grid.Row="4" Margin="6" IsChecked="True" TabIndex="7"/>
+
+            <Border BorderBrush="{x:Null}" Width="170" Height="60" HorizontalAlignment="Left" Margin="3,0,0,0" Grid.Column="1" Grid.Row="5">
+                <TextBlock x:Name="fileTextBlock" TextWrapping="Wrap" VerticalAlignment="Center" />
+            </Border>
+            <Button x:Name="fileButton" Content="..." VerticalContentAlignment="Top" Width="20" Height="20" Margin="0,0,10,0" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="5" Click="fileButton_Click" />
+            <ComboBox x:Name="outputComboBox" Grid.Column="1" Grid.Row="6" Margin="3" ItemsSource="{Binding MulticastDatabase.LocalAddresses}" SelectedIndex="0" TabIndex="8">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource IpAddressConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <DockPanel Grid.Column="1"  Grid.Row="1" Width="110" HorizontalAlignment="Left" Height="20" Background="White" Margin="3">
+                <Border CornerRadius="5" BorderBrush="Black" Background="White">
+                    <DockPanel >
+                        <TextBox x:Name="firstOctetTextBox"  HorizontalAlignment="Left" Text="224" VerticalAlignment="Top" Width="25" BorderBrush="{x:Null}" TextChanged="TextBoxIpAddress_OnTextChanged" SelectionBrush="{x:Null}" MaxLength="3" TabIndex="1"/>
+                        <Label Content="." Margin="-5,-3" />
+                        <TextBox x:Name="secondOctetTextBox" HorizontalAlignment="Left" Text="1" VerticalAlignment="Top" Width="25" BorderBrush="{x:Null}" TextChanged="TextBoxIpAddress_OnTextChanged" SelectionBrush="{x:Null}" MaxLength="3" TabIndex="2"/>
+                        <Label Content="." Margin="-5,-3" />
+                        <TextBox x:Name="thirdOctetTextBox" HorizontalAlignment="Left" Text="1" VerticalAlignment="Top" Width="25" BorderBrush="{x:Null}" TextChanged="TextBoxIpAddress_OnTextChanged" SelectionBrush="{x:Null}" MaxLength="3" TabIndex="3"/>
+                        <Label Content="." Margin="-5,-3" />
+                        <TextBox x:Name="fourthOctetTextBox" HorizontalAlignment="Left" Text="1" VerticalAlignment="Top" Width="25" BorderBrush="{x:Null}" TextChanged="TextBoxIpAddress_OnTextChanged" SelectionBrush="{x:Null}" MaxLength="3" TabIndex="4"/>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+        </Grid>
+        <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Margin="20,0,0,10" Click="okButton_Click" TabIndex="10" />
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,20,10" Click="cancelButton_Click" TabIndex="9"/>
+    </Grid>
+</Window>
+

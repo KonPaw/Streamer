@@ -1,0 +1,199 @@
+﻿<Window x:Class="Streamer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True"
+        Icon="icon.ico"
+        Title="Streamer" Height="350" Width="525" MinHeight="250" MinWidth="450"  Background="#FF282828"
+        >
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FF282828"/>
+
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="DarkGray"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Gray"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Value="True">
+                    <Setter Property="Background" Value="#FF282828"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Value="True">
+                    <Setter Property="Background" Value="#FF3C3C3C"/>
+                    <Setter Property="Foreground" Value="LimeGreen"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Streaming}" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                   <!-- <Setter Property="{x:Static streamingTextBlock.Opacity}" Value="1"/>-->
+
+                </DataTrigger>
+                
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="20"/>
+        </Style>
+        <Style TargetType="{x:Type Button}"
+       x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, 
+  TypeInTargetAssembly={x:Type DataGrid}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Shape.Fill).
+                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="DarkGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Shape.Fill).
+                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="DimGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="Border"
+                     SnapsToDevicePixels="True">
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                   StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource BorderLightColor}"
+                              Offset="0" />
+                                        <GradientStop Color="{DynamicResource BorderMediumColor}"
+                              Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                   StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource ControlLightColor}"
+                              Offset="0" />
+                                        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                              Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Polygon x:Name="Arrow"
+                   HorizontalAlignment="Right"
+                   Margin="8,8,3,3"
+                   Opacity="0.15"
+                   Points="0,10 10,10 10,0"
+                   Stretch="Uniform"
+                   VerticalAlignment="Bottom">
+                                <Polygon.Fill>
+                                    <SolidColorBrush Color="White" />
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid AllowDrop="True" Drop="Grid_Drop">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0"  MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" Background="#00000000"  TextElement.Foreground="White">
+            <Button x:Name="addButton" Content="Add" Margin="15, 2, 5, 2"  Click="addButton_Click" Background="{x:Null}"  />
+            <Button x:Name="editButton" Content="Edit"  Margin="5, 2" Click="edit_Click"  Background="{x:Null}" />
+            <Button x:Name="copyButton" Content="Copy"  Margin="5, 2" Click="copyButton_Click"  Background="{x:Null}" />
+            <Button x:Name="deleteButton" Content="Delete"  Margin="5, 2" Click="deleteButton_Click" Background="{x:Null}" />
+            <Button x:Name="aboutButton" Content="About"  Margin="5, 2" Click="AboutButton_OnClick" Background="{x:Null}" />
+            <DockPanel HorizontalAlignment="Right">
+                <Button x:Name="minimizeButton" Click="MinimizeButton_OnClick" Content="&#128469;" Width="35" Background="{x:Null}" />
+                <Button x:Name="fullScreenButton" Click="FullScreenButton_OnClick"  Content="&#9744;" Width="35" Background="{x:Null}" />
+                <Button x:Name="exitButton" Click="ExitButton_OnClick" Content="&#10005;" Width="35" Background="{x:Null}"  Margin="0,0,5,0"/>
+            </DockPanel>
+
+        </DockPanel>
+
+        <DataGrid x:Name="dataGrid" Margin="0,0,75,0" CanUserReorderColumns="False" SelectionChanged="dataGrid_SelectionChanged" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" CanUserAddRows="False" CanUserResizeColumns="True" CanUserSortColumns="True" IsReadOnly="True" ItemsSource="{Binding MulticastDatabase}" SelectionMode="Extended" MouseDoubleClick="DataGrid_OnMouseDoubleClick" Grid.Row="1" SelectedIndex="0" >
+            <DataGrid.Columns >
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Name="streamingTextBlock" Visibility="Hidden" Text="&#9654;"/>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Streaming}" Value="True">
+                                    <Setter TargetName="streamingTextBlock" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Multicast" Binding="{Binding IpAddress}"/>
+                <DataGridTextColumn Header="Port" Binding="{Binding Port}"/>
+                <DataGridTextColumn Header="File Name" Binding="{Binding FileName}"/>
+                <DataGridTextColumn Header="Bitrate" Binding="{Binding Bitrate}"/>
+                <DataGridCheckBoxColumn Header="Loop" Binding="{Binding Loop}"/>
+                <DataGridTextColumn Header="Output Address" Binding="{Binding OutputLocalAddress}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="1" Margin="15">
+            <Button x:Name="startButton" Content="Start" Width="50" Click="start_Click"  Background="{x:Null}" />
+            <Button x:Name="stopButton" Content="Stop" Width="50" Click="stopButton_Click"  Background="{x:Null}"  />
+            <Button x:Name="startAllButton" Content="Start All" Width="50" Click="startAllButton_Click" Background="{x:Null}"  />
+            <Button x:Name="stopAllButton" Content="Stop All" Width="50" Click="stopAllButton_Click" Background="{x:Null}" />
+        </StackPanel>
+
+
+        <Button x:Name="importSettingsButton" Content="Import" Margin="0,0,15,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="50" Click="importSettingsButton_Click" Background="{x:Null}"  Grid.Row="1"/>
+
+    </Grid>
+</Window>
